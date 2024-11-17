@@ -1,0 +1,617 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "ADAD Backend API",
+    "description": "This document was generated from the branch main.\n\nIf you are a contributor to this project, you may access it here: https://paw.cloud/account/teams/5342920/projects/401341",
+    "version": "v1.0.0",
+    "contact": {
+      "name": "Willian Santa Ana",
+      "url": "https://paw.cloud/account/teams/5342920"
+    }
+  },
+  "host": "localhost:3000",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/",
+  "paths": {
+    "/books": {
+      "get": {
+        "summary": "Get books with pagination",
+        "description": "This endpoint retrieves a paginated list of books.\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |\n\n",
+        "operationId": "f0965d91-4fa6-4add-a446-21924bbcc73d",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a New Book",
+        "description": "This endpoint creates one or more new books with the provided details.\n\n\n### Request Body\nThe body of the request must be in JSON format and including a single object or an array with the following fields:\n\n| Field             | Type       | Description                                    |\n|--------------------|------------|------------------------------------------------|\n| `title`           | `string`   | The title of the book.                         |\n| `isbn`            | `string`   | The ISBN number of the book.                   |\n| `pageCount`       | `number`   | The number of pages in the book.               |\n| `publishedDate`   | `object`   | An object containing the `date` field (ISO 8601). |\n| `thumbnailUrl`    | `string`   | The URL of the book's thumbnail.               |\n| `longDescription` | `string`   | A detailed description of the book.            |\n| `status`          | `string`   | The status of the book (`PUBLISH` or other).   |\n| `authors`         | `array`    | A list of authors of the book.                 |\n| `categories`      | `array`    | A list of categories for the book.             |",
+        "operationId": "3cda635d-eeed-4203-990c-01d20ccbccd7",
+        "consumes": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "{\n  \"title\": \"Book title\",\n  \"isbn\": \"000000000\",\n  \"pageCount\": 999,\n  \"publishedDate\": {\n    \"$date\": \"2024-01-01T07:00:00.000Z\"\n  },\n  \"thumbnailUrl\": \"http://localhost\",\n  \"longDescription\": \"Book description\",\n  \"status\": \"PUBLISH\",\n  \"authors\": [\n    \"Willian Santana\"\n  ],\n  \"categories\": [\n    \"Computer Science\"\n  ]\n}"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "Get users with pagination",
+        "description": "This endpoint retrieves a paginated list of users.\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of users to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "f418c216-09f3-46d0-afe7-7b535ad34d0e",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a New User",
+        "description": "This endpoint creates one or more new users with the provided details.\n\n\n### Request Body\nThe body of the request must be in JSON format and include the following fields:\n\n| Field          | Type     | Description                          |\n|-----------------|----------|--------------------------------------|\n| `first_name`   | `string` | The first name of the user.          |\n| `last_name`    | `string` | The last name of the user.           |\n| `year_of_birth`| `number` | The year of birth of the user.       |\n| `job`          | `string` | The occupation of the user.          |\n| `reviews`      | `array`  | A list of reviews related to the user. |\n\n",
+        "operationId": "d5f0721d-f286-4db2-8d00-365b6cff131c",
+        "consumes": [
+          "text/plain"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "{\n  \"first_name\": \"Willian\",\n  \"last_name\": \"Santana\",\n  \"year_of_birth\": 1994,\n  \"job\": \"Software Engineer\",\n  \"reviews\": []\n}"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/6739b68fe4c4f7929dbbf31b": {
+      "get": {
+        "summary": "Get a book by ID",
+        "description": "This endpoint retrieves the details of a book by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the book.    |",
+        "operationId": "e2dab2ba-b476-447e-acf9-1e0a0c1116ab",
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/users/6739b5bce4c4f7929dbbf31a": {
+      "get": {
+        "summary": "Get a user by ID",
+        "description": "This endpoint retrieves the details of a user by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the user.    |",
+        "operationId": "c9dbb8a2-f3c6-4660-9917-ef29b05c25d1",
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/books/29": {
+      "delete": {
+        "summary": "Delete a Book by ID",
+        "description": "This endpoint deletes a book record by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the book.    |",
+        "operationId": "9a3e4c6b-eb0b-451b-8bbd-20ac040ed3de",
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/users/800": {
+      "delete": {
+        "summary": "Delete a user by ID",
+        "description": "This endpoint deletes a user record by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the user.    |",
+        "operationId": "96054b76-ef12-463a-9e54-d2d778fb6cb7",
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/books/6739b82ae4c4f7929dbbf31d": {
+      "put": {
+        "summary": "Update a Book by ID",
+        "description": "This endpoint updates the details of an existing book by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the book.    |\n\n&nbsp;\n\n### Request Body\nThe body of the request must be in JSON format and include the following fields:\n\n| Field             | Type       | Description                                    |\n|--------------------|------------|------------------------------------------------|\n| `title`           | `string`   | The title of the book.                         |\n| `isbn`            | `string`   | The ISBN number of the book.                   |\n| `pageCount`       | `number`   | The number of pages in the book.               |\n| `publishedDate`   | `object`   | An object containing the `date` field (ISO 8601). |\n| `thumbnailUrl`    | `string`   | The URL of the book's thumbnail.               |\n| `longDescription` | `string`   | A detailed description of the book.            |\n| `status`          | `string`   | The status of the book (`PUBLISH` or other).   |\n| `authors`         | `array`    | A list of authors of the book.                 |\n| `categories`      | `array`    | A list of categories for the book.             |",
+        "operationId": "4ae7ce3c-68d7-47a3-8dbc-48d0a7511a71",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "{\"title\":\"New ook title\",\"isbn\":\"000000000\",\"pageCount\":500,\"publishedDate\":{\"$date\":\"2024-01-01T07:00:00.000Z\"},\"thumbnailUrl\":\"http://localhost\",\"longDescription\":\"Book updated\",\"status\":\"PUBLISH\",\"authors\":[\"Willian Santana\"],\"categories\":[\"Computer Science\"]}"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/users/6739b824e4c4f7929dbbf31c": {
+      "put": {
+        "summary": "Update a User by ID",
+        "description": "This endpoint updates the details of an existing user by their unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the user.    |\n\n&nbsp;\n\n### Request Body\nThe body of the request must be in JSON format and include the following fields:\n\n| Field          | Type     | Description                              |\n|-----------------|----------|------------------------------------------|\n| `first_name`   | `string` | The first name of the user.              |\n| `last_name`    | `string` | The last name of the user.               |\n| `year_of_birth`| `number` | The year of birth of the user.           |\n| `job`          | `string` | The job title of the user.               |\n| `reviews`      | `array`  | A list of reviews associated with the user. |",
+        "operationId": "c73ec658-6491-4ea3-837a-332d2a4fb0ed",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "{\"first_name\":\"Willian Felipe\",\"last_name\":\"Santa Ana\",\"year_of_birth\":1994,\"job\":\"Data Scientist and Software Engineer\",\"reviews\":[]}"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/top/3": {
+      "get": {
+        "summary": "Retrieve Top Books by Average Score",
+        "description": "This endpoint retrieves a paginated list of books with the highest average scores. The number of books returned is determined by the `count` parameter.\n\n### Path Parameters\n\n| Parameter | Type     | Description                                  |\n|-----------|----------|----------------------------------------------|\n| `count`   | `number` | The number of top books to retrieve.         |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "276c5657-7e1b-4cf5-bb9f-70960170dd0d",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/ratings/asc": {
+      "get": {
+        "summary": "Retrieve Books Sorted by Total Number of Reviews",
+        "description": "This endpoint retrieves a paginated list of books sorted by the total number of reviews in either ascending or descending order, based on the `order` parameter.\n\n### Path Parameters\n\n| Parameter | Type     | Description                                           |\n|-----------|----------|-------------------------------------------------------|\n| `order`   | `string` | The sort order for the total number of reviews. Valid values are `asc` (ascending) and `desc` (descending). |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "af7c25ac-4515-42be-8a1d-cdd01a0334c3",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/five-star": {
+      "get": {
+        "summary": "Retrieve Books with the Most 5-Star Reviews",
+        "description": "Retrieve a paginated list of books with the Most 5-Star Reviews\n\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |\n",
+        "operationId": "e22eee5b-f323-4471-8ec9-41aad6611a4d",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/year/2022": {
+      "get": {
+        "summary": "Retrieve Books Reviewed in a Specific Year",
+        "description": "This endpoint retrieves a paginated list of books that were reviewed in the specified year.\n\n### Path Parameters\n\n| Parameter | Type     | Description                              |\n|-----------|----------|------------------------------------------|\n| `year`    | `number` | The year for which to retrieve reviewed books. |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "e5237127-0c50-4b10-8dd6-14d779d7ca18",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/comments": {
+      "get": {
+        "summary": "Retrieve Books with Comments",
+        "description": "This endpoint retrieves a paginated list of books that have comments associated with them.\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "be77e60c-4b2c-4fda-a1cf-8157cab456ee",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "1",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/job": {
+      "get": {
+        "summary": "Retrieve Total Reviews by Job",
+        "description": "This endpoint retrieves the total number of reviews grouped by the job of the reviewers.\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "8993de94-384c-4598-a57b-fddd09134a31",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "10",
+            "name": "limit",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "2",
+            "name": "page",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/books/filter": {
+      "get": {
+        "summary": "Retrieve Filtered Books",
+        "description": "This endpoint retrieves a list of books filtered by price, category, and/or author based on the query parameters provided.\n\n### Query Parameters\n\n| Parameter  | Type     | Description                                       |\n|------------|----------|---------------------------------------------------|\n| `author`   | `string` | Filter books by the specified author.             |\n| `category` | `string` | Filter books by the specified category.           |\n| `price`    | `number` | Filter books by a maximum price.                  |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "0a726b6e-3c07-4ce3-98e6-8f39e15c8bf0",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "Gojko Adzic",
+            "name": "author",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "Software Engineering",
+            "name": "category",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/comments": {
+      "post": {
+        "summary": "Create a New Comment",
+        "description": "This endpoint creates a new comment for a specific book and user.\n\n## Request Body\nThe body of the request must be in JSON format and include the following fields:\n\n| Field      | Type     | Description                                     |\n|------------|----------|-------------------------------------------------|\n| `user_id`  | `string` | The unique identifier of the user making the comment. |\n| `book_id`  | `string` | The unique identifier of the book being commented on. |\n| `comment`  | `string` | The content of the comment.                     |",
+        "operationId": "d9a29cf6-867f-47d2-a55a-a517bd509ed0",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "{\"user_id\":\"6739b824e4c4f7929dbbf31c\",\"book_id\":\"6739b82ae4c4f7929dbbf31d\",\"comment\":\"Comment test\"}"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/comments/17": {
+      "delete": {
+        "summary": "Delete a Comment by ID",
+        "description": "This endpoint deletes a specific comment using its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the comment. |",
+        "operationId": "87c6d600-e208-4421-ab52-c1df7a70e152",
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/bookstores/1/books": {
+      "post": {
+        "summary": "Add Books to a Bookstore",
+        "description": "This endpoint allows adding multiple books to a specific bookstore using the bookstore's unique identifier.\n\n### Path Parameters\n\n| Parameter | Type     | Description                                |\n|-----------|----------|--------------------------------------------|\n| `id`      | `string` | The unique identifier of the bookstore.    |\n\n&nbsp;\n\n### Request Body\nThe body of the request must be in JSON format and include an array of book objects, where each object has the following fields:\n\n| Field             | Type       | Description                                    |\n|--------------------|------------|------------------------------------------------|\n| `_id`             | `string`   | The unique identifier of the book.             |\n| `title`           | `string`   | The title of the book.                         |\n| `isbn`            | `string`   | The ISBN number of the book.                   |\n| `pageCount`       | `number`   | The number of pages in the book.               |\n| `publishedDate`   | `object`   | An object containing the `date` field (ISO 8601). |\n| `thumbnailUrl`    | `string`   | The URL of the book's thumbnail.               |\n| `status`          | `string`   | The status of the book (`PUBLISH` or other).   |\n| `authors`         | `array`    | A list of authors of the book.                 |\n| `categories`      | `array`    | A list of categories for the book.             |",
+        "operationId": "f095dd52-4b34-4a3f-bd82-b0a46b95cd34",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "[{\"_id\":1,\"title\":\"Unlocking Android\",\"isbn\":\"1933988673\",\"pageCount\":416,\"publishedDate\":{\"$date\":\"2009-04-01T07:00:00.000Z\"},\"thumbnailUrl\":\"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/ableson.jpg\",\"shortDescription\":\"Unlocking Android: A Developer's Guide provides concise, hands-on instruction for the Android operating system and development tools. This book teaches important architectural concepts in a straightforward writing style and builds on this with practical and useful examples throughout.\",\"longDescription\":\"Android is an open source mobile phone platform based on the Linux operating system and developed by the Open Handset Alliance, a consortium of over 30 hardware, software and telecom companies that focus on open standards for mobile devices. Led by search giant, Google, Android is designed to deliver a better and more open and cost effective mobile experience.    Unlocking Android: A Developer's Guide provides concise, hands-on instruction for the Android operating system and development tools. This book teaches important architectural concepts in a straightforward writing style and builds on this with practical and useful examples throughout. Based on his mobile development experience and his deep knowledge of the arcane Android technical documentation, the author conveys the know-how you need to develop practical applications that build upon or replace any of Androids features, however small.    Unlocking Android: A Developer's Guide prepares the reader to embrace the platform in easy-to-understand language and builds on this foundation with re-usable Java code examples. It is ideal for corporate and hobbyists alike who have an interest, or a mandate, to deliver software functionality for cell phones.    WHAT'S INSIDE:        * Android's place in the market      * Using the Eclipse environment for Android development      * The Intents - how and why they are used      * Application classes:            o Activity            o Service            o IntentReceiver       * User interface design      * Using the ContentProvider to manage data      * Persisting data with the SQLite database      * Networking examples      * Telephony applications      * Notification methods      * OpenGL, animation & multimedia      * Sample Applications  \",\"status\":\"PUBLISH\",\"authors\":[\"W. Frank Ableson\",\"Charlie Collins\",\"Robi Sen\"],\"categories\":[\"Open Source\",\"Mobile\"]},{\"_id\":2,\"title\":\"Android in Action, Second Edition\",\"isbn\":\"1935182722\",\"pageCount\":592,\"publishedDate\":{\"$date\":\"2011-01-14T08:00:00.000Z\"},\"thumbnailUrl\":\"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/ableson2.jpg\",\"shortDescription\":\"Android in Action, Second Edition is a comprehensive tutorial for Android developers. Taking you far beyond \\\"Hello Android,\\\" this fast-paced book puts you in the driver's seat as you learn important architectural concepts and implementation strategies. You'll master the SDK, build WebKit apps using HTML 5, and even learn to extend or replace Android's built-in features by building useful and intriguing examples. \",\"longDescription\":\"When it comes to mobile apps, Android can do almost anything   and with this book, so can you! Android runs on mobile devices ranging from smart phones to tablets to countless special-purpose gadgets. It's the broadest mobile platform available.    Android in Action, Second Edition is a comprehensive tutorial for Android developers. Taking you far beyond \\\"Hello Android,\\\" this fast-paced book puts you in the driver's seat as you learn important architectural concepts and implementation strategies. You'll master the SDK, build WebKit apps using HTML 5, and even learn to extend or replace Android's built-in features by building useful and intriguing examples. \",\"status\":\"PUBLISH\",\"authors\":[\"W. Frank Ableson\",\"Robi Sen\"],\"categories\":[\"Java\"]},{\"_id\":3,\"title\":\"Specification by Example\",\"isbn\":\"1617290084\",\"pageCount\":0,\"publishedDate\":{\"$date\":\"2011-06-03T07:00:00.000Z\"},\"thumbnailUrl\":\"https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/adzic.jpg\",\"status\":\"PUBLISH\",\"authors\":[\"Gojko Adzic\"],\"categories\":[\"Software Engineering\"]}]"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      },
+      "get": {
+        "summary": "Retrieve Books from a Bookstore",
+        "description": "This endpoint retrieves a list of books available in a specific bookstore identified by its unique `id`.\n\n### Path Parameters\n\n| Parameter | Type     | Description                                |\n|-----------|----------|--------------------------------------------|\n| `id`      | `string` | The unique identifier of the bookstore.    |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "5b6fb444-32be-4505-ae9d-0b107602809f",
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/bookstores/near": {
+      "get": {
+        "summary": "Retrieve Bookstores Near a Location",
+        "description": "This endpoint retrieves a list of bookstores near a specific geographic location, based on provided coordinates.\n\n### Query Parameters\n\n| Parameter     | Type     | Description                                            |\n|---------------|----------|--------------------------------------------------------|\n| `latitude`    | `number` | The latitude of the location.                          |\n| `longitude`   | `number` | The longitude of the location.                         |\n| `maxDistance` | `number` | (Optional) The maximum distance (in meters) to search within. Default: `5000` (5 km). |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "71ef348b-df19-4d33-a9a4-fd79fdd763aa",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "38.7105419551935",
+            "name": "latitude",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "-9.14421890064127",
+            "name": "longitude",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "5000",
+            "name": "maxDistance",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/bookstores/near-route": {
+      "post": {
+        "summary": "Retrieve Bookstores Near a Route",
+        "description": "This endpoint retrieves a list of bookstores located near a specified route. The route is defined as an array of geographic points (latitude and longitude), and the search radius is defined by `maxDistance`.\n\n### Request Body\nThe body of the request must be in JSON format and include the following fields:\n\n| Field         | Type     | Description                                                              |\n|---------------|----------|--------------------------------------------------------------------------|\n| `route`       | `array`  | An array of geographic points defining the route. Each point must include `latitude` and `longitude`. |\n| `maxDistance` | `number` | (Optional) The maximum distance (in meters) to search from the route. Default: `5000` (5 km). |\n\n&nbsp;\n\n### Query Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------------|\n| `limit`   | `number` | The maximum number of books to return per page. Default: `10`. |\n| `page`    | `number` | The page number to retrieve. Default: `1`.  |",
+        "operationId": "2dd41044-e5b4-427d-91c6-acbc22a93bf2",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "{\"route\":[[-9.14421890064127,38.7105419551935],[-9.14217296415889,38.7155597377788]],\"maxDistance\":5000}"
+            },
+            "in": "body",
+            "name": "body"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/bookstores/near-count": {
+      "get": {
+        "summary": "Retrieve the Count of Bookstores Near a Location",
+        "description": "This endpoint retrieves the total number of bookstores located within a specified distance from a given geographic location.\n\n### Query Parameters\n\n| Parameter     | Type     | Description                                            |\n|---------------|----------|--------------------------------------------------------|\n| `latitude`    | `number` | The latitude of the location.                          |\n| `longitude`   | `number` | The longitude of the location.                         |\n| `maxDistance` | `number` | (Optional) The maximum distance (in meters) to search within. Default: `5000` (5 km). |\n",
+        "operationId": "c127cdbc-261a-4f12-a20a-e66f680f455c",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "38.7105419551935",
+            "name": "latitude",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "-9.14421890064127",
+            "name": "longitude",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "5000",
+            "name": "maxDistance",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    },
+    "/bookstores/fair/inside": {
+      "get": {
+        "summary": "Check if a User is Inside the Book Fair",
+        "description": "This endpoint checks if a user is located within the defined boundaries of the book fair based on their geographic coordinates.\n\n### Query Parameters\n\n| Parameter  | Type     | Description                                  |\n|------------|----------|----------------------------------------------|\n| `latitude` | `number` | The latitude of the user's current location. |\n| `longitude`| `number` | The longitude of the user's current location. |",
+        "operationId": "13b0c9c2-a0b2-47e9-b87f-cfc471e578d8",
+        "parameters": [
+          {
+            "type": "string",
+            "default": "38.72749043040882",
+            "name": "latitude",
+            "required": false,
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "default": "-9.155644342145884",
+            "name": "longitude",
+            "required": false,
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "no response description was provided for this operation"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
