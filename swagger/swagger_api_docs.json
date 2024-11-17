@@ -2,12 +2,8 @@
   "swagger": "2.0",
   "info": {
     "title": "ADAD Backend API",
-    "description": "This document was generated from the branch main.\n\nIf you are a contributor to this project, you may access it here: https://paw.cloud/account/teams/5342920/projects/401341",
-    "version": "v1.0.0",
-    "contact": {
-      "name": "Willian Santa Ana",
-      "url": "https://paw.cloud/account/teams/5342920"
-    }
+    "description": "Backend API documentation for the Distributed Data Storage project \n\n Student: Willian Santa Ana\n Student number: 122042\n GitHub: https://github.com/williansantaana/adad-backend.git",
+    "version": "v1.0.0"
   },
   "host": "localhost:3000",
   "schemes": [
