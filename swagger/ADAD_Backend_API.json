@@ -141,7 +141,7 @@
         "parameters": []
       }
     },
-    "/books/29": {
+    "/books/39": {
       "delete": {
         "summary": "Delete a Book by ID",
         "description": "This endpoint deletes a book record by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the book.    |",
@@ -154,7 +154,7 @@
         "parameters": []
       }
     },
-    "/users/800": {
+    "/users/700": {
       "delete": {
         "summary": "Delete a user by ID",
         "description": "This endpoint deletes a user record by its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the user.    |",
@@ -434,7 +434,7 @@
         }
       }
     },
-    "/comments/17": {
+    "/comments/27": {
       "delete": {
         "summary": "Delete a Comment by ID",
         "description": "This endpoint deletes a specific comment using its unique identifier (`id`).\n\n### Path Parameters\n\n| Parameter | Type     | Description                           |\n|-----------|----------|---------------------------------------|\n| `id`      | `string` | The unique identifier of the comment. |",
