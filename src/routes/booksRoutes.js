@@ -19,7 +19,7 @@ router.post('/', async (req, res) => {
     res.status(status).json(result)
 })
 
-router.get('/five-star', async (req, res) => {
+router.get('/five-stars', async (req, res) => {
     const limit = Math.max(1, parseInt(req.query.limit) || 10)
     const page = Math.max(1, parseInt(req.query.page) || 1)
     const { status, result } = await bookModel.getFiveStarBooks(limit, page)

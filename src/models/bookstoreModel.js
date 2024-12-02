@@ -240,13 +240,11 @@ export const isUserInsideFair = async (lat, lon) => {
         const latitude = parseFloat(lat)
         const longitude = parseFloat(lon)
 
-        // Define o ponto no formato GeoJSON
         const userLocation = {
             type: "Point",
             coordinates: [longitude, latitude]
         }
 
-        // Busca a "Feira do Livro" e verifica se o ponto está dentro do polígono
         const bookFair = await db.collection('bookstores').findOne({
             name: "Feira do Livro",
             geometry: {

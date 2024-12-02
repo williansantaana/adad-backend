@@ -319,7 +319,6 @@ export const getFiveStarBooks = async (limit, page) => {
                     fiveStarReviews: { $sum: 1 }
                 }
             },
-            { $match: { fiveStarReviews: 5 } },
             { $skip: skip },
             { $limit: limit }
         ]).toArray()
@@ -342,7 +341,6 @@ export const getFiveStarBooks = async (limit, page) => {
                     fiveStarReviews: { $sum: 1 }
                 }
             },
-            { $match: { fiveStarReviews: 5 } },
             { $count: "totalDocuments" }
         ]).toArray()
 
