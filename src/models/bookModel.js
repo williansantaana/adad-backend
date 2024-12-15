@@ -31,6 +31,20 @@ export const getBooks = async (limit, page) => {
     }
 }
 
+export const getSimpleListBooks = async () => {
+    try {
+        const books = await db.collection('books')
+            .find({})
+            .project({ _id: 1, title: 1 })
+            .toArray()
+
+        return { status: 200, result: books }
+    } catch (error) {
+        console.error(error)
+        return { status: 500, result: { message: 'Error fetching books' } }
+    }
+}
+
 export const createBooks = async (books) => {
     try {
         if (!books || (Array.isArray(books) && books.length === 0)) {
@@ -110,9 +124,11 @@ export const deleteBook = async (id) => {
 
 export const updateBook = async (id, book) => {
     try {
+        if (book._id) delete book._id
+
         const result = await db.collection('books').updateOne(
             { _id: id },
-            { $set: book }
+            { $set: book },
         )
 
         if (result.matchedCount === 0) {

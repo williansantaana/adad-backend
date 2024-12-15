@@ -32,6 +32,36 @@ export const getUsers = async (limit, page) => {
     }
 }
 
+export const searchUser = async (query = '') => {
+    try {
+        let filter = {};
+
+        if (query) {
+            const terms = query.split(' ').filter(term => term.trim());
+
+            const regexConditions = terms.map(term => ({
+                $or: [
+                    { first_name: { $regex: term, $options: 'i' } },
+                    { last_name: { $regex: term, $options: 'i' } }
+                ]
+            }));
+
+            filter = { $and: regexConditions };
+        }
+
+        const users = await db.collection('users')
+            .find(filter)
+            .project({ _id: 1, first_name: 1, last_name: 1 })
+            .limit(20)
+            .toArray();
+
+        return { status: 200, result: users };
+    } catch (error) {
+        console.error(error);
+        return { status: 500, result: { message: 'Error fetching users' } };
+    }
+}
+
 export const createUsers = async (users) => {
     try {
         if (!users || (Array.isArray(users) && users.length === 0)) {
@@ -95,7 +125,14 @@ export const getUser = async (id) => {
             },
             { $unwind: "$books" },
             {
-                $replaceRoot: { newRoot: "$books" }
+                $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: [
+                            "$books",
+                            { score: "$score" }
+                        ]
+                    }
+                }
             }
         ]).toArray()
 
@@ -128,9 +165,11 @@ export const deleteUser = async (id) => {
 
 export const updateUser = async (id, user) => {
     try {
+        if (user._id) delete user._id
+
         const result = await db.collection('users').updateOne(
             { _id: id },
-            { $set: user }
+            { $set: user },
         )
 
         if (result.matchedCount === 0) {

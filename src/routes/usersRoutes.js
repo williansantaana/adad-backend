@@ -1,6 +1,7 @@
 import express from 'express'
 import { ObjectId } from 'mongodb'
 import * as userModel from '../models/userModel.js'
+import {parseDocumentId} from "../utils/functions.js";
 
 const router = express.Router()
 
@@ -19,28 +20,29 @@ router.post('/', async (req, res) => {
     res.status(status).json(result)
 })
 
+router.get("/search", async (req, res) => {
+    const query = req.query.q
+    const { status, result } = await userModel.searchUser(query)
+
+    res.status(status).json(result)
+})
+
 router.get('/:id', async (req, res) => {
-    const id = ObjectId.isValid(req.params.id)
-        ? ObjectId.createFromHexString(req.params.id)
-        : parseInt(req.params.id)
+    const id = parseDocumentId(req.params.id)
     const { status, result } = await userModel.getUser(id)
 
     res.status(status).json(result)
 })
 
 router.delete('/:id', async (req, res) => {
-    const id = ObjectId.isValid(req.params.id)
-        ? ObjectId.createFromHexString(req.params.id)
-        : parseInt(req.params.id)
+    const id = parseDocumentId(req.params.id)
     const { status, result } = await userModel.deleteUser(id)
 
     res.status(status).json(result)
 })
 
 router.put('/:id', async (req, res) => {
-    const id = ObjectId.isValid(req.params.id)
-        ? ObjectId.createFromHexString(req.params.id)
-        : parseInt(req.params.id)
+    const id = parseDocumentId(req.params.id)
     const user = req.body
     const { status, result } = await userModel.updateUser(id, user)
 

@@ -1,6 +1,7 @@
 import express from 'express'
 import { ObjectId } from 'mongodb'
 import * as bookModel from '../models/bookModel.js'
+import {parseDocumentId} from "../utils/functions.js";
 
 const router = express.Router()
 
@@ -15,6 +16,12 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
     const books = req.body
     const { status, result } = await bookModel.createBooks(books)
+
+    res.status(status).json(result)
+})
+
+router.get('/simple-list', async (req, res) => {
+    const { status, result } = await bookModel.getSimpleListBooks()
 
     res.status(status).json(result)
 })
@@ -53,27 +60,21 @@ router.get('/filter', async (req, res) => {
 })
 
 router.get('/:id', async (req, res) => {
-    const id = ObjectId.isValid(req.params.id)
-        ? ObjectId.createFromHexString(req.params.id)
-        : parseInt(req.params.id)
+    const id = parseDocumentId(req.params.id)
     const { status, result } = await bookModel.getBook(id)
 
     res.status(status).json(result)
 })
 
 router.delete('/:id', async (req, res) => {
-    const id = ObjectId.isValid(req.params.id)
-        ? ObjectId.createFromHexString(req.params.id)
-        : parseInt(req.params.id)
+    const id = parseDocumentId(req.params.id)
     const { status, result } = await bookModel.deleteBook(id)
 
     res.status(status).json(result)
 })
 
 router.put('/:id', async (req, res) => {
-    const id = ObjectId.isValid(req.params.id)
-        ? ObjectId.createFromHexString(req.params.id)
-        : parseInt(req.params.id)
+    const id = parseDocumentId(req.params.id)
     const book = req.body
     const { status, result } = await bookModel.updateBook(id, book)
 

@@ -1,4 +1,52 @@
 import db from '../database/config.js'
+import { lineString, buffer } from '@turf/turf'
+import {parseDocumentId} from "../utils/functions.js";
+
+export const getBookstores = async (limit, page) => {
+    try {
+        if (limit > 20) {
+            return { status: 400, result: { message: 'The \'limit\' must not be greater than 20' } }
+        }
+
+        const skip = (page - 1) * limit
+        const bookstores = await db.collection('bookstores')
+            .find({})
+            .skip(skip)
+            .limit(limit)
+            .toArray()
+
+        const totalRecords = await db.collection('bookstores').countDocuments()
+
+        const result = {
+            bookstores,
+            pagination: {
+                totalRecords,
+                totalPages: Math.ceil(totalRecords / limit),
+                currentPage: page
+            }
+        }
+
+        return { status: 200, result }
+    } catch (error) {
+        console.error(error)
+        return { status: 500, result: { message: 'Error fetching bookstores' } }
+    }
+}
+
+export const getBookstore = async (id) => {
+    try {
+        const bookstore = await db.collection('bookstores').findOne({ _id: id })
+
+        if (!bookstore) {
+            return { status: 404, result: { message: `Bookstore with id: ${id} not found` } }
+        }
+
+        return { status: 200, result: bookstore }
+    } catch (error) {
+        console.error(error)
+        return { status: 500, result: { message: 'Error fetching bookstore' } }
+    }
+}
 
 export const addBooksToAllBookstores = async (id, books) => {
     try {
@@ -164,16 +212,13 @@ export const getBookstoresNearRoute = async (route, maxDist, limit, page) => {
         }
 
         const skip = (page - 1) * limit
-
-        const routeLine = {
-            type: "LineString",
-            coordinates: route
-        }
+        const routeLine = lineString(route)
+        const bufferedRoute = buffer(routeLine, maxDist / 1000, { units: 'kilometers' }).geometry
 
         const bookstores = await db.collection('bookstores').find({
             geometry: {
-                $geoIntersects: {
-                    $geometry: routeLine
+                $geoWithin: {
+                    $geometry: bufferedRoute
                 }
             }
         })
@@ -183,8 +228,8 @@ export const getBookstoresNearRoute = async (route, maxDist, limit, page) => {
 
         const totalRecords = await db.collection('bookstores').countDocuments({
             geometry: {
-                $geoIntersects: {
-                    $geometry: routeLine
+                $geoWithin: {
+                    $geometry: bufferedRoute
                 }
             }
         })
@@ -263,5 +308,48 @@ export const isUserInsideFair = async (lat, lon) => {
     } catch (error) {
         console.error(error)
         return { status: 500, result: { message: 'Error verifying the user\'s location' } }
+    }
+}
+
+export const createBookstoreStock = async (stock) => {
+    try {
+        if (!stock || (Array.isArray(stock) && stock.length === 0)) {
+            return { status: 400, result: { message: 'The body of the request must contain one or more stock entries' } }
+        }
+
+        if (Array.isArray(stock)) {
+            const formatedStock = stock.map(entry => ({
+                quantity: entry.quantity ?? 1,
+                book_id: parseDocumentId(entry.book_id),
+                bookstore_id: parseDocumentId(entry.bookstore_id)
+            }))
+            const result = await db.collection('stock').insertMany(formatedStock)
+
+            return {
+                status: 200,
+                result: {
+                    message: `${result.insertedCount} stock entries added successfully`,
+                    insertedIds: result.insertedIds
+                }
+            }
+        } else {
+            
+            const result = await db.collection('stock').insertOne({
+                quantity: stock.quantity ?? 1,
+                book_id: parseDocumentId(stock.book_id),
+                bookstore_id: parseDocumentId(stock.bookstore_id)
+            })
+
+            return {
+                status: 200,
+                result: {
+                    message: `Stock entry added successfully`,
+                    insertedIds: result.insertedId
+                }
+            }
+        }
+    } catch (error) {
+        console.error(error)
+        return { status: 500, result: { message: 'Error adding bookstore stock' } }
     }
 }

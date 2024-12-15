@@ -10,7 +10,7 @@ export const addComment = async ({ book_id, user_id, comment }) => {
             book_id,
             user_id,
             comment,
-            date: new Date().getTime()
+            date: Date.now().toString()
         }
 
         const result = await db.collection('comments').insertOne(newComment)
